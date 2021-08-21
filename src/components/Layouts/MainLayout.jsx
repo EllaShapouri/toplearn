@@ -4,6 +4,7 @@ import Footer from './../common/Footer';
 import Header from './../common/Header';
 import TopNav from './../Navs/TopNav';
 import MainNav from './../Navs/MainNav';
+import { Helmet } from 'react-helmet';
 
 const MainLayout = props => {
     return (
@@ -14,6 +15,10 @@ const MainLayout = props => {
                     {props.location.pathname === '/' ? <Header /> : null}
                 </div>
             </div>
+
+            <Helmet>
+                <title>خودآموز تاپلرن</title>
+            </Helmet>
 
             <MainNav />
 
