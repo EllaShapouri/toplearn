@@ -5,7 +5,7 @@ import SimpleReactValidator from 'simple-react-validator';
 
 import { registerUser } from './../../Services/userServices';
 
-const Register = () => {
+const Register = ({ history }) => {
 
     const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
@@ -45,7 +45,8 @@ const Register = () => {
                     toast.success("کاربر با موفقیت ساخته شد.", {
                         position: "top-right",
                         closeOnClick: true
-                    })
+                    });
+                    history.push("/login");
                     reset();
                 }
             }
