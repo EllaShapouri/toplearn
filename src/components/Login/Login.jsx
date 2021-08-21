@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { loginUser } from './../../Services/userServices';
 import { toast } from 'react-toastify';
 import SimpleReactValidator from 'simple-react-validator';
+import { Helmet } from 'react-helmet';
 
 const Login = ({ history }) => {
 
@@ -63,6 +64,10 @@ const Login = ({ history }) => {
             <div className="container-content">
 
                 <header><h2> ورود به سایت </h2></header>
+
+                <Helmet>
+                    <title>تاپلرن | ورود به سایت</title>
+                </Helmet>
 
                 <div className="form-layer">
 
