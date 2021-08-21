@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import SimpleReactValidator from 'simple-react-validator';
@@ -13,9 +14,9 @@ const Register = ({ history }) => {
     const [policy, setPolicy] = useState();
     const [, forceUpdate] = useState("");
 
-    useEffect(() => {
-        document.title = "تاپلرن | عضویت در سایت"
-    }, []);
+    // useEffect(() => {
+    //     document.title = "تاپلرن | عضویت در سایت"
+    // }, []);
 
     const validator = useRef(new SimpleReactValidator({
         messages: {
@@ -91,6 +92,10 @@ const Register = ({ history }) => {
             <div className="container-content">
 
                 <header><h2> عضویت در سایت </h2></header>
+
+                <Helmet>
+                    <title>تاپلرن | عضویت در سایت</title>
+                </Helmet>
 
                 <div className="form-layer">
 
