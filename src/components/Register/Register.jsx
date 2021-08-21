@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import SimpleReactValidator from 'simple-react-validator';
@@ -12,6 +12,10 @@ const Register = ({ history }) => {
     const [password, setPassword] = useState("");
     const [policy, setPolicy] = useState();
     const [, forceUpdate] = useState("");
+
+    useEffect(() => {
+        document.title = "تاپلرن | عضویت در سایت"
+    }, []);
 
     const validator = useRef(new SimpleReactValidator({
         messages: {
