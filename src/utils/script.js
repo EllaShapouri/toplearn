@@ -1,10 +1,11 @@
+import $ from 'jquery';
 $(function () {
   $(".main-menu nav > span").click(function () {
     $(".main-menu nav > ul").slideToggle();
   });
 });
 
-$(document).load($(window).bind("resize", checkPosition));
+$(document).bind("resize", checkPosition);
 
 function checkPosition() {
   if (window.matchMedia("(max-width: 991px)").matches) {
