@@ -5,15 +5,20 @@ import Course from './../components/Courses/Course';
 import Login from './../components/Login/Login';
 import Register from './../components/Register/Register';
 import Archive from './../components/Courses/Aechive';
+import { useSelector } from 'react-redux';
+import { paginate } from './../utils/paginate';
 
 const TopLearn = () => {
+    const courses = useSelector(state => state.courses);
+    const indexCourses = paginate(courses, 1, 8);
+
     return (
         <MainLayout>
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/archive" component={Archive} />
-                <Route path="/" exact component={Course} />
+                <Route path="/" exact render={() => <Course courses={indexCourses}/>} />
                 {/* <Course /> */}
             </Switch>
         </MainLayout>

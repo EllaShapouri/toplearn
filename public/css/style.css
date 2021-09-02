@@ -373,6 +373,7 @@ main#home-page{
 .terms-items .term-col article .img-layer img{
     width: 100%;
     display: block;
+    height: 180px;
 }
 .terms-items .term-col article h2 a{
     width: 100%;
