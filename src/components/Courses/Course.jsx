@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Course = ({ courses }) => {
     return (
@@ -9,8 +9,7 @@ const Course = ({ courses }) => {
                 <Link to="/archive"> مشاهده همه دوره ها </Link>
             </header>
             <div className="row">
-
-                {courses.map(course => (
+                {courses.map((course) => (
                     <div
                         key={course._id}
                         className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col"
@@ -20,20 +19,25 @@ const Course = ({ courses }) => {
                                 to={`/course/${course._id}`}
                                 className="img-layer"
                             >
-                                <img src={`https://toplearnapi.ghorbany.dev/${course.imageUrl}`} className="img-fluid" />
+                                <img
+                                    src={`https://toplearnapi.ghorbany.dev/${course.imageUrl}`}
+                                    classNّame="img-fluid"
+                                />
                             </Link>
                             <h2>
-                                <Link to={`/course/${course._id}`}> {course.title} </Link>
+                                <Link to={`/course/${course._id}`}>
+                                    {" "}
+                                    {course.title}{" "}
+                                </Link>
                             </h2>
                             <span> رایگان </span>
                             <i>1:52:32</i>
                         </article>
                     </div>
                 ))}
-
             </div>
         </section>
     );
-}
+};
 
 export default Course;
