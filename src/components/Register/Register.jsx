@@ -1,46 +1,50 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef } from "react";
+import { Helmet } from "react-helmet";
+import { Link, Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import SimpleReactValidator from 'simple-react-validator';
+import SimpleReactValidator from "simple-react-validator";
+import { isEmpty } from "lodash";
 
-import { registerUser } from './../../Services/userServices';
+import { registerUser } from "./../../Services/userServices";
+import { useSelector } from "react-redux";
 
 const Register = ({ history }) => {
-
     const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [policy, setPolicy] = useState();
     const [, forceUpdate] = useState("");
 
+    const user = useSelector((state) => state.user);
+
     // useEffect(() => {
     //     document.title = "تاپلرن | عضویت در سایت"
     // }, []);
 
-    const validator = useRef(new SimpleReactValidator({
-        messages: {
-            required: "پر کردن این فیلد الزامی است.",
-            min: "نباید کمتر از 5 کاراکتر باشد.",
-            email: "ایمیل نوشته شده صحیح نمی باشد."
-        },
-        element: message => <div style={{ color: "red" }}>{message}</div>
-    }));
+    const validator = useRef(
+        new SimpleReactValidator({
+            messages: {
+                required: "پر کردن این فیلد الزامی است.",
+                min: "نباید کمتر از 5 کاراکتر باشد.",
+                email: "ایمیل نوشته شده صحیح نمی باشد.",
+            },
+            element: (message) => <div style={{ color: "red" }}>{message}</div>,
+        })
+    );
 
     const reset = () => {
         setFullname("");
         setEmail("");
         setPassword("");
-    }
+    };
 
-    const handleSubmit = async event => {
-
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const user = {
             fullname,
             email,
-            password
+            password,
         };
 
         try {
@@ -49,20 +53,19 @@ const Register = ({ history }) => {
                 if (status === 201) {
                     toast.success("کاربر با موفقیت ساخته شد.", {
                         position: "top-right",
-                        closeOnClick: true
+                        closeOnClick: true,
                     });
                     history.push("/login");
                     reset();
                 }
-            }
-            else {
+            } else {
                 validator.current.showMessages();
                 forceUpdate(1);
             }
         } catch (ex) {
             toast.error("مشکلی پیش آمده.", {
                 position: "top-right",
-                closeOnClick: true
+                closeOnClick: true,
             });
             console.log(ex);
         }
@@ -85,24 +88,27 @@ const Register = ({ history }) => {
         //         });
         //         console.log(ex);
         //     });
-    }
+    };
+
+    if (!isEmpty(user)) return <Redirect to="/" />;
 
     return (
         <main className="client-page">
             <div className="container-content">
-
-                <header><h2> عضویت در سایت </h2></header>
+                <header>
+                    <h2> عضویت در سایت </h2>
+                </header>
 
                 <Helmet>
                     <title>تاپلرن | عضویت در سایت</title>
                 </Helmet>
 
                 <div className="form-layer">
-
                     <form onSubmit={handleSubmit}>
-
                         <div className="input-group">
-                            <span className="input-group-addon" id="username"><i className="zmdi zmdi-account"></i></span>
+                            <span className="input-group-addon" id="username">
+                                <i className="zmdi zmdi-account"></i>
+                            </span>
                             <input
                                 type="text"
                                 name="fullname"
@@ -110,16 +116,27 @@ const Register = ({ history }) => {
                                 placeholder="نام و نام خانوادگی"
                                 aria-describedby="username"
                                 value={fullname}
-                                onChange={e => {
+                                onChange={(e) => {
                                     setFullname(e.target.value);
-                                    validator.current.showMessageFor("fullname");
+                                    validator.current.showMessageFor(
+                                        "fullname"
+                                    );
                                 }}
                             />
                         </div>
-                        {validator.current.message("fullname", fullname, "required|min:5")}
+                        {validator.current.message(
+                            "fullname",
+                            fullname,
+                            "required|min:5"
+                        )}
 
                         <div className="input-group">
-                            <span className="input-group-addon" id="email-address"><i className="zmdi zmdi-email"></i></span>
+                            <span
+                                className="input-group-addon"
+                                id="email-address"
+                            >
+                                <i className="zmdi zmdi-email"></i>
+                            </span>
                             <input
                                 type="email"
                                 name="email"
@@ -127,16 +144,22 @@ const Register = ({ history }) => {
                                 placeholder="ایمیل"
                                 aria-describedby="email-address"
                                 value={email}
-                                onChange={e => {
+                                onChange={(e) => {
                                     setEmail(e.target.value);
                                     validator.current.showMessageFor("email");
                                 }}
                             />
                         </div>
-                        {validator.current.message("email", email, "required|email")}
+                        {validator.current.message(
+                            "email",
+                            email,
+                            "required|email"
+                        )}
 
                         <div className="input-group">
-                            <span className="input-group-addon" id="password"><i className="zmdi zmdi-lock"></i></span>
+                            <span className="input-group-addon" id="password">
+                                <i className="zmdi zmdi-lock"></i>
+                            </span>
                             <input
                                 type="password"
                                 name="password"
@@ -144,13 +167,19 @@ const Register = ({ history }) => {
                                 placeholder="رمز عبور "
                                 aria-describedby="password"
                                 value={password}
-                                onChange={e => {
+                                onChange={(e) => {
                                     setPassword(e.target.value);
-                                    validator.current.showMessageFor("password");
+                                    validator.current.showMessageFor(
+                                        "password"
+                                    );
                                 }}
                             />
                         </div>
-                        {validator.current.message("password", password, "required|min:5")}
+                        {validator.current.message(
+                            "password",
+                            password,
+                            "required|min:5"
+                        )}
 
                         <div className="accept-rules">
                             <label>
@@ -158,7 +187,7 @@ const Register = ({ history }) => {
                                     type="checkbox"
                                     name="policy"
                                     value={policy}
-                                    onChange={e => {
+                                    onChange={(e) => {
                                         setPolicy(e.currentTarget.checked);
                                         validator.current.showMessageFor(
                                             "policy"
@@ -175,18 +204,27 @@ const Register = ({ history }) => {
                         </div>
 
                         <div className="link">
-                            <a href=""> <i className="zmdi zmdi-assignment"></i> قوانین و مقررات سایت !</a>
-                            <Link to="/login"> <i className="zmdi zmdi-account"></i> ورود به سایت </Link>
+                            <a href="">
+                                {" "}
+                                <i className="zmdi zmdi-assignment"></i> قوانین
+                                و مقررات سایت !
+                            </a>
+                            <Link to="/login">
+                                {" "}
+                                <i className="zmdi zmdi-account"></i> ورود به
+                                سایت{" "}
+                            </Link>
                         </div>
 
-                        <button className="btn btn-success"> عضویت در سایت </button>
-
+                        <button className="btn btn-success">
+                            {" "}
+                            عضویت در سایت{" "}
+                        </button>
                     </form>
                 </div>
-
             </div>
         </main>
     );
-}
+};
 
 export default Register;

@@ -1,12 +1,13 @@
 import React, { useState, useRef } from "react";
-import { withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { loginUser } from "./../../Services/userServices";
 import { toast } from "react-toastify";
 import SimpleReactValidator from "simple-react-validator";
 import { Helmet } from "react-helmet";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "./../../actions/user";
 import { decodeToken } from "./../../utils/decodeToken";
+import { isEmpty } from "lodash";
 
 const Login = ({ history }) => {
     const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = ({ history }) => {
     const [, forceUpdate] = useState("");
 
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
 
     const validator = useRef(
         new SimpleReactValidator({
@@ -65,6 +67,8 @@ const Login = ({ history }) => {
             console.log(ex);
         }
     };
+
+    if (!isEmpty(user)) return <Redirect to="/" />;
 
     return (
         <main className="client-page">
