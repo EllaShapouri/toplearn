@@ -11,6 +11,7 @@ import { paginate } from "./../utils/paginate";
 import SingleCourse from "./../components/Courses/SingleCourse";
 import { decodeToken } from "./../utils/decodeToken";
 import { addUser } from "./../actions/user";
+import Profile from "./../components/UserProfile/Profile";
 
 const TopLearn = () => {
     const courses = useSelector((state) => state.courses);
@@ -40,6 +41,7 @@ const TopLearn = () => {
                 <Route path="/logout" component={Logout} />
                 <Route path="/register" component={Register} />
                 <Route path="/archive" component={Archive} />
+                <Route path="/profile" component={Profile} />
                 <Route
                     path="/"
                     exact
