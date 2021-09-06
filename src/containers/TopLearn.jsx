@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import MainLayout from "./../components/Layouts/MainLayout";
 import Course from "./../components/Courses/Course";
 import Login from "./../components/Login/Login";
@@ -12,9 +12,12 @@ import SingleCourse from "./../components/Courses/SingleCourse";
 import { decodeToken } from "./../utils/decodeToken";
 import { addUser } from "./../actions/user";
 import Profile from "./../components/UserProfile/Profile";
+import UserContext from "./../components/context/UserContext";
+import { isEmpty } from "lodash";
 
 const TopLearn = () => {
     const courses = useSelector((state) => state.courses);
+    const user = useSelector((state) => state.user);
     const indexCourses = paginate(courses, 1, 8);
 
     const dispatch = useDispatch();
@@ -37,9 +40,42 @@ const TopLearn = () => {
     return (
         <MainLayout>
             <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/logout" component={Logout} />
-                <Route path="/register" component={Register} />
+                <Route
+                    path="/login"
+                    render={() =>
+                        isEmpty(user) ? (
+                            <UserContext>
+                                <Login />
+                            </UserContext>
+                        ) : (
+                            <Redirect to="/" />
+                        )
+                    }
+                />
+                <Route
+                    path="/logout"
+                    render={() =>
+                        !isEmpty(user) ? (
+                            <UserContext>
+                                <Logout />
+                            </UserContext>
+                        ) : (
+                            <Redirect to="/" />
+                        )
+                    }
+                />
+                <Route
+                    path="/register"
+                    render={() =>
+                        isEmpty(user) ? (
+                            <UserContext>
+                                <Register />
+                            </UserContext>
+                        ) : (
+                            <Redirect to="/" />
+                        )
+                    }
+                />
                 <Route path="/archive" component={Archive} />
                 <Route path="/profile" component={Profile} />
                 <Route

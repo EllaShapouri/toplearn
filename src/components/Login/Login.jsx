@@ -1,74 +1,11 @@
-import React, { useState, useRef } from "react";
-import { Redirect, withRouter } from "react-router-dom";
-import { loginUser } from "./../../Services/userServices";
-import { toast } from "react-toastify";
-import SimpleReactValidator from "simple-react-validator";
+import React, { useContext } from "react";
+import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "./../../actions/user";
-import { decodeToken } from "./../../utils/decodeToken";
-import { isEmpty } from "lodash";
+import { context } from "../context/Context";
 
-const Login = ({ history }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [, forceUpdate] = useState("");
-
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
-
-    const validator = useRef(
-        new SimpleReactValidator({
-            messages: {
-                required: "پر کردن این فید الزامی است.",
-                min: "نباید کمتر از 5 کاراکتر باشد.",
-                email: "ایمیل نوشته شده صحیح نمی باشد.",
-            },
-            element: (message) => <div style={{ color: "red" }}>{message}</div>,
-        })
-    );
-
-    const reset = () => {
-        setEmail("");
-        setPassword("");
-    };
-
-    const handleLogin = async (event) => {
-        event.preventDefault();
-
-        const user = {
-            email,
-            password,
-        };
-
-        try {
-            if (validator.current.allValid()) {
-                const { status, data } = await loginUser(user);
-                if (status === 200) {
-                    toast.success("شما با موفقیت وارد شدید.", {
-                        position: "top-right",
-                        closeOnClick: true,
-                    });
-                    reset();
-                    console.log(data);
-                    localStorage.setItem("token", data.token);
-                    dispatch(addUser(decodeToken(data.token).payload.user));
-                    history.replace("/");
-                }
-            } else {
-                validator.current.showMessages();
-                forceUpdate(1);
-            }
-        } catch (ex) {
-            toast.error("مشکلی پیش آمده.", {
-                position: "top-right",
-                closeOnClick: true,
-            });
-            console.log(ex);
-        }
-    };
-
-    if (!isEmpty(user)) return <Redirect to="/" />;
+const Login = () => {
+    const { email, setEmail, password, setPassword, validator, handleLogin } =
+        useContext(context);
 
     return (
         <main className="client-page">
@@ -82,7 +19,7 @@ const Login = ({ history }) => {
                 </Helmet>
 
                 <div className="form-layer">
-                    <form action="" method="" onSubmit={handleLogin}>
+                    <form action="" method="" onSubmit={(e) => handleLogin(e)}>
                         <div className="input-group">
                             <span
                                 className="input-group-addon"

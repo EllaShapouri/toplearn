@@ -1,96 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useContext } from "react";
 import { Helmet } from "react-helmet";
-import { Link, Redirect } from "react-router-dom";
-import { toast } from "react-toastify";
-import SimpleReactValidator from "simple-react-validator";
-import { isEmpty } from "lodash";
+import { Link } from "react-router-dom";
+import { context } from "../context/Context";
 
-import { registerUser } from "./../../Services/userServices";
-import { useSelector } from "react-redux";
-
-const Register = ({ history }) => {
-    const [fullname, setFullname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [policy, setPolicy] = useState();
-    const [, forceUpdate] = useState("");
-
-    const user = useSelector((state) => state.user);
+const Register = () => {
+    const {
+        fullname,
+        setFullname,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        policy,
+        setPolicy,
+        validator,
+        handleRegister,
+    } = useContext(context);
 
     // useEffect(() => {
     //     document.title = "تاپلرن | عضویت در سایت"
     // }, []);
-
-    const validator = useRef(
-        new SimpleReactValidator({
-            messages: {
-                required: "پر کردن این فیلد الزامی است.",
-                min: "نباید کمتر از 5 کاراکتر باشد.",
-                email: "ایمیل نوشته شده صحیح نمی باشد.",
-            },
-            element: (message) => <div style={{ color: "red" }}>{message}</div>,
-        })
-    );
-
-    const reset = () => {
-        setFullname("");
-        setEmail("");
-        setPassword("");
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const user = {
-            fullname,
-            email,
-            password,
-        };
-
-        try {
-            if (validator.current.allValid()) {
-                const { status } = await registerUser(user);
-                if (status === 201) {
-                    toast.success("کاربر با موفقیت ساخته شد.", {
-                        position: "top-right",
-                        closeOnClick: true,
-                    });
-                    history.push("/login");
-                    reset();
-                }
-            } else {
-                validator.current.showMessages();
-                forceUpdate(1);
-            }
-        } catch (ex) {
-            toast.error("مشکلی پیش آمده.", {
-                position: "top-right",
-                closeOnClick: true,
-            });
-            console.log(ex);
-        }
-
-        // registerUser(user)
-        //     .then(({ data, status }) => {
-        //         if (status === 201) {
-        //             toast.success("کاربر با موفقیت ساخته شد.", {
-        //                 position: "top-right",
-        //                 closeOnClick: true
-        //             });
-        //             console.log(data);
-        //             reset();
-        //         }
-        //     })
-        //     .catch(ex => {
-        //         toast.error("مشکلی پیش آمده.", {
-        //             position: "top-right",
-        //             closeOnClick: true
-        //         });
-        //         console.log(ex);
-        //     });
-    };
-
-    if (!isEmpty(user)) return <Redirect to="/" />;
 
     return (
         <main className="client-page">
@@ -104,7 +33,7 @@ const Register = ({ history }) => {
                 </Helmet>
 
                 <div className="form-layer">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={(e) => handleRegister(e)}>
                         <div className="input-group">
                             <span className="input-group-addon" id="username">
                                 <i className="zmdi zmdi-account"></i>
