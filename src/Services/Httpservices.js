@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import { errorMessage } from "../utils/toast";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -15,10 +15,7 @@ axios.interceptors.response.use(null, (error) => {
 
     if (!expectedErrors) {
         console.log(error);
-        toast.error("مشکلی در سمت سرور پیش آمده.", {
-            position: "top-right",
-            closeOnClick: true,
-        });
+        errorMessage("مشکلی در سمت سرور پیش آمده.");
     }
 
     return Promise.reject(error);
