@@ -14,6 +14,7 @@ import { addUser } from "./../actions/user";
 import Profile from "./../components/UserProfile/Profile";
 import UserContext from "./../components/context/UserContext";
 import { isEmpty } from "lodash";
+import NotFound from "./../components/common/NotFound";
 
 const TopLearn = () => {
     const courses = useSelector((state) => state.courses);
@@ -84,6 +85,7 @@ const TopLearn = () => {
                     render={() => <Course courses={indexCourses} />}
                 />
                 <Route path="/course/:id" component={SingleCourse} />
+                <Route path="*" component={NotFound} />
             </Switch>
         </MainLayout>
     );
