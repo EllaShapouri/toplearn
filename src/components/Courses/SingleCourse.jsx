@@ -1,5 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ShowImage from "../common/ShowImage";
 import { getSingleCourse } from "./../../actions/course";
 import Pagination from "./../common/Pagination";
 
@@ -21,9 +22,7 @@ const SingleCourse = ({ match }) => {
                 <div className="row">
                     <div className="col-md-8 col-sm-12 col-xs-12 pull-left">
                         <section className="term-description">
-                            <img
-                                src={`https://toplearnapi.ghorbany.dev/${course.imageUrl}`}
-                            />
+                            <ShowImage image={course.imageUrl} />
 
                             <p>{course.info}</p>
 
