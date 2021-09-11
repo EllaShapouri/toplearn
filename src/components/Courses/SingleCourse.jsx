@@ -3,15 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import ShowImage from "../common/ShowImage";
 import { getSingleCourse } from "./../../actions/course";
 import Pagination from "./../common/Pagination";
+import { courseIdValidator } from "./../../utils/IdValidator";
+import { Redirect } from "react-router";
 
 const SingleCourse = ({ match }) => {
     const course = useSelector((state) => state.course);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getSingleCourse(match.params.id));
-        console.log(match);
+        if (courseIdValidator(match.params.id))
+            dispatch(getSingleCourse(match.params.id));
     }, []);
+
+    if (!courseIdValidator(match.params.id)) return <Redirect to="/" />;
 
     return (
         <Fragment>
