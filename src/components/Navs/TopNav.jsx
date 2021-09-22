@@ -27,7 +27,8 @@ const TopNav = () => {
                                     {" "}
                                     {user.fullname}{" "}
                                 </NavLink>
-                                /<NavLink to="/logout"> خروج از حساب </NavLink>
+                                /<NavLink to="/dashboard"> پنل ادمین </NavLink>/
+                                <NavLink to="/logout"> خروج از حساب </NavLink>
                             </div>
                         ) : (
                             <div className="signin">
