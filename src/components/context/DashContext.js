@@ -6,5 +6,13 @@ export const dashContext = createContext({
     perPage: 5,
     setperPage: () => {},
     handlePageChange: () => {},
+    currentCourse: {},
     courseData: [],
+    setSearch: () => {},
+    openNewCourseDialog: () => {},
+    openEditCourseDialog: () => {},
+    openDeleteCourseDialog: () => {},
+    filteredCourses: [],
+    sortCoursesAsc: () => {},
+    sortCoursesDes: () => {},
 });
