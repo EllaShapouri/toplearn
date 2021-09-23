@@ -4,8 +4,13 @@ import { dashContext } from "./../context/DashContext";
 
 const CourseTable = () => {
     const context = useContext(dashContext);
-    const { currentPage, perPage, handlePageChange, courseData } = context;
-
+    const {
+        currentPage,
+        perPage,
+        handlePageChange,
+        courseData,
+        openNewCourseDialog,
+    } = context;
     return (
         <section style={{ marginTop: "5em", marginRight: "2em" }}>
             <div>
@@ -14,7 +19,10 @@ const CourseTable = () => {
                         لیست دوره ها
                     </h3>
                     <div className="row inline-block">
-                        <button className="btn btn-primary">
+                        <button
+                            className="btn btn-primary"
+                            onClick={openNewCourseDialog}
+                        >
                             <span
                                 className="fa fa-plus"
                                 style={{
