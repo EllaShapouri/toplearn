@@ -17,6 +17,8 @@ import { isEmpty } from "lodash";
 import NotFound from "./../components/common/NotFound";
 import PrivateLayout from "./../components/Layouts/PrivateLayout";
 import Dashboard from "./../components/admin/Dashboard";
+import CourseTable from "./../components/admin/CourseTable";
+import AdminContext from "../components/context/AdminContext";
 
 const TopLearn = () => {
     const courses = useSelector((state) => state.courses);
@@ -51,6 +53,19 @@ const TopLearn = () => {
                             render={() =>
                                 !isEmpty(user) && user.isAdmin ? (
                                     <Dashboard courses={courses} />
+                                ) : (
+                                    <Redirect to="/" />
+                                )
+                            }
+                        />
+                        <Route
+                            path="/dashboard/courses"
+                            exact
+                            render={() =>
+                                !isEmpty(user) && user.isAdmin ? (
+                                    <AdminContext courses={courses}>
+                                        <CourseTable />
+                                    </AdminContext>
                                 ) : (
                                     <Redirect to="/" />
                                 )
