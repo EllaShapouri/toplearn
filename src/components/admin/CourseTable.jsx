@@ -10,6 +10,7 @@ const CourseTable = () => {
         handlePageChange,
         courseData,
         openNewCourseDialog,
+        openEditCourseDialog,
     } = context;
     return (
         <section style={{ marginTop: "5em", marginRight: "2em" }}>
@@ -72,7 +73,12 @@ const CourseTable = () => {
                                             : `${course.price}`}
                                     </td>
                                     <td>
-                                        <button className="btn btn-warning">
+                                        <button
+                                            className="btn btn-warning"
+                                            onClick={() =>
+                                                openEditCourseDialog(course)
+                                            }
+                                        >
                                             ویرایش
                                         </button>
                                     </td>
