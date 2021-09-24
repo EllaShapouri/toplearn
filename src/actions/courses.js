@@ -36,26 +36,23 @@ export const createNewCourse = (course) => {
 export const editCourse = (courseId, updatedCourse) => {
     return async (dispatch, getState) => {
         const courses = [...getState().courses];
-        const prevCourses = [...courses];
-        const courseIndex = courses.findIndex(
-            (course) => courseId === course._id
+        const filteredCourses = courses.filter(
+            (course) => course._id !== courseId
         );
-
-        let thisCourse = courses[courseIndex];
-        thisCourse = { ...Object.fromEntries(updatedCourse) };
-        courses[courseIndex] = thisCourse;
         try {
-            await dispatch({ type: "UPDATE_COURSE", payload: [...courses] });
             const { data, status } = await updateCourse(
                 courseId,
                 updatedCourse
             );
+            await dispatch({
+                type: "UPDATE_COURSE",
+                payload: [...filteredCourses, data.course],
+            });
             if (status === 200) successMessage("دوره با موفقیت ویرایش شد .");
-            console.log(data);
         } catch (error) {
             await dispatch({
                 type: "UPDATE_COURSE",
-                payload: [...prevCourses],
+                payload: [...courses],
             });
         }
     };
