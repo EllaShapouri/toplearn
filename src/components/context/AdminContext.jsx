@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { dashContext } from "./DashContext";
 import { paginate } from "./../../utils/paginate";
 import NewCourseDialog from "./../admin/dialogs/NewCourseDialog";
@@ -11,7 +11,6 @@ const AdminContext = ({ courses, children }) => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-    const courseData = paginate(courses, currentPage, perPage);
 
     const [newCourseDialog, setNewCourseDialog] = useState(false);
     const openNewCourseDialog = () => setNewCourseDialog(true);
@@ -32,6 +31,18 @@ const AdminContext = ({ courses, children }) => {
     };
     const closeDeleteCourseDialog = () => setDeleteCourseDialog(false);
 
+    const [search, setSearch] = useState("");
+    const [courseList, setCourseList] = useState([]);
+
+    useEffect(() => setCourseList(courses), [courses]);
+
+    // for return searched courses
+    const filteredCourses = courseList.filter((course) =>
+        course.title.includes(search)
+    );
+
+    const courseData = paginate(filteredCourses, currentPage, perPage);
+
     return (
         <dashContext.Provider
             value={{
@@ -42,6 +53,8 @@ const AdminContext = ({ courses, children }) => {
                 openNewCourseDialog,
                 openEditCourseDialog,
                 openDeleteCourseDialog,
+                setSearch,
+                filteredCourses,
             }}
         >
             <NewCourseDialog

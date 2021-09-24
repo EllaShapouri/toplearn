@@ -12,6 +12,8 @@ const CourseTable = () => {
         openNewCourseDialog,
         openEditCourseDialog,
         openDeleteCourseDialog,
+        setSearch,
+        filteredCourses,
     } = context;
     return (
         <section style={{ marginTop: "5em", marginRight: "2em" }}>
@@ -37,6 +39,7 @@ const CourseTable = () => {
                         <input
                             type="text"
                             placeholder="جستجوی دوره"
+                            onChange={(e) => setSearch(e.target.value)}
                             className="form-control"
                             style={{
                                 width: "50%",
@@ -100,7 +103,7 @@ const CourseTable = () => {
                 </div>
                 <div className="navbar-fixed-bottom text-center footer">
                     <Pagination
-                        totalCourses={courseData.length}
+                        totalCourses={filteredCourses.length}
                         currentPage={currentPage}
                         perPage={perPage}
                         handleChange={handlePageChange}
