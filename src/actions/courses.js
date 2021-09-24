@@ -3,6 +3,7 @@ import {
     getCourses,
     newCourse,
     updateCourse,
+    deleteCourse,
 } from "./../Services/coursesServices";
 
 export const allCourses = () => {
@@ -14,12 +15,21 @@ export const allCourses = () => {
 
 export const createNewCourse = (course) => {
     return async (dispatch, getState) => {
-        const { data, status } = await newCourse(course);
-        if (status === 201) successMessage("دوره با موفقیت ساخته شد");
-        await dispatch({
-            type: "ADD_COURSE",
-            payload: [...getState().courses, data.course],
-        });
+        const courses = [...getState().courses];
+        try {
+            const { data, status } = await newCourse(course);
+            if (status === 201) successMessage("دوره با موفقیت ساخته شد");
+
+            await dispatch({
+                type: "ADD_COURSE",
+                payload: [...courses, data.course],
+            });
+        } catch (error) {
+            await dispatch({
+                type: "ADD_COURSE",
+                payload: [...courses],
+            });
+        }
     };
 };
 
@@ -46,6 +56,28 @@ export const editCourse = (courseId, updatedCourse) => {
             await dispatch({
                 type: "UPDATE_COURSE",
                 payload: [...prevCourses],
+            });
+        }
+    };
+};
+
+export const handleDeleteCourse = (courseId) => {
+    return async (dispatch, getState) => {
+        const courses = [...getState().courses];
+        const filteredCourses = courses.filter(
+            (course) => course._id !== courseId
+        );
+        try {
+            const { status } = await deleteCourse(courseId);
+            await dispatch({
+                type: "DELETE_COURSE",
+                payload: [...filteredCourses],
+            });
+            if (status === 200) successMessage("دوره پاک شد.");
+        } catch (error) {
+            await dispatch({
+                type: "DELETE_COURSE",
+                payload: [...courses],
             });
         }
     };
