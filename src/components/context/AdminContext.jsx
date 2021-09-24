@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { dashContext } from "./DashContext";
 import { paginate } from "./../../utils/paginate";
+import { orderBy } from "lodash";
 import NewCourseDialog from "./../admin/dialogs/NewCourseDialog";
 import EditCourseDialog from "./../admin/dialogs/EditCourseDialog";
 import DeleteCourseDialog from "../admin/dialogs/DeleteCourseDialog";
@@ -41,6 +42,14 @@ const AdminContext = ({ courses, children }) => {
         course.title.includes(search)
     );
 
+    const sortCoursesDes = () => {
+        setCourseList(orderBy(courseList, "price", "desc"));
+    };
+
+    const sortCoursesAsc = () => {
+        setCourseList(orderBy(courseList, "price", "asc"));
+    };
+
     const courseData = paginate(filteredCourses, currentPage, perPage);
 
     return (
@@ -55,6 +64,8 @@ const AdminContext = ({ courses, children }) => {
                 openDeleteCourseDialog,
                 setSearch,
                 filteredCourses,
+                sortCoursesDes,
+                sortCoursesAsc,
             }}
         >
             <NewCourseDialog

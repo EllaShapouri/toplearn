@@ -14,6 +14,8 @@ const CourseTable = () => {
         openDeleteCourseDialog,
         setSearch,
         filteredCourses,
+        sortCoursesDes,
+        sortCoursesAsc,
     } = context;
     return (
         <section style={{ marginTop: "5em", marginRight: "2em" }}>
@@ -53,7 +55,25 @@ const CourseTable = () => {
                             <tr>
                                 <th scope="col">عنوان دوره</th>
                                 <th scope="col">تصویر دوره</th>
-                                <th scope="col">قیمت دوره (تومان)</th>
+                                <th scope="col">
+                                    قیمت دوره (تومان)
+                                    <span
+                                        className="fa fa-long-arrow-up"
+                                        style={{
+                                            marginRight: "0.5em",
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={sortCoursesDes}
+                                    ></span>
+                                    <span
+                                        className="fa fa-long-arrow-down"
+                                        style={{
+                                            marginRight: "0.5em",
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={sortCoursesAsc}
+                                    ></span>
+                                </th>
                                 <th scope="col">ویرایش</th>
                                 <th scope="col">حذف</th>
                             </tr>
