@@ -11,6 +11,7 @@ const CourseTable = () => {
         courseData,
         openNewCourseDialog,
         openEditCourseDialog,
+        openDeleteCourseDialog,
     } = context;
     return (
         <section style={{ marginTop: "5em", marginRight: "2em" }}>
@@ -83,7 +84,12 @@ const CourseTable = () => {
                                         </button>
                                     </td>
                                     <td>
-                                        <button className="btn btn-danger">
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => {
+                                                openDeleteCourseDialog(course);
+                                            }}
+                                        >
                                             حذف
                                         </button>
                                     </td>

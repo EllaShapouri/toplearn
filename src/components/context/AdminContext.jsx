@@ -3,27 +3,34 @@ import { dashContext } from "./DashContext";
 import { paginate } from "./../../utils/paginate";
 import NewCourseDialog from "./../admin/dialogs/NewCourseDialog";
 import EditCourseDialog from "./../admin/dialogs/EditCourseDialog";
+import DeleteCourseDialog from "../admin/dialogs/DeleteCourseDialog";
 
 const AdminContext = ({ courses, children }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentCourse, setCurrentCourse] = useState({});
     const [perPage] = useState(5);
-    const [newCourseDialog, setNewCourseDialog] = useState(false);
-    const [editCourseDialog, setEditCourseDialog] = useState(false);
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+    const courseData = paginate(courses, currentPage, perPage);
 
+    const [newCourseDialog, setNewCourseDialog] = useState(false);
     const openNewCourseDialog = () => setNewCourseDialog(true);
+    const closeNewCourseDialog = () => setNewCourseDialog(false);
+
+    const [currentCourse, setCurrentCourse] = useState({});
+    const [editCourseDialog, setEditCourseDialog] = useState(false);
     const openEditCourseDialog = (course) => {
         setEditCourseDialog(true);
         setCurrentCourse(course);
     };
-
-    const closeNewCourseDialog = () => setNewCourseDialog(false);
     const closeEditCourseDialog = () => setEditCourseDialog(false);
 
-    const courseData = paginate(courses, currentPage, perPage);
+    const [deleteCourseDialog, setDeleteCourseDialog] = useState(false);
+    const openDeleteCourseDialog = (course) => {
+        setDeleteCourseDialog(true);
+        setCurrentCourse(course);
+    };
+    const closeDeleteCourseDialog = () => setDeleteCourseDialog(false);
 
     return (
         <dashContext.Provider
@@ -34,6 +41,7 @@ const AdminContext = ({ courses, children }) => {
                 courseData,
                 openNewCourseDialog,
                 openEditCourseDialog,
+                openDeleteCourseDialog,
             }}
         >
             <NewCourseDialog
@@ -43,6 +51,11 @@ const AdminContext = ({ courses, children }) => {
             <EditCourseDialog
                 showDialog={editCourseDialog}
                 closeDialog={closeEditCourseDialog}
+                course={currentCourse}
+            />
+            <DeleteCourseDialog
+                showDialog={deleteCourseDialog}
+                closeDialog={closeDeleteCourseDialog}
                 course={currentCourse}
             />
             {children}
